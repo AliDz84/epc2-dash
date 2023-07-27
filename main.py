@@ -16,7 +16,7 @@ ph1=imageList['desc'].loc[imageList.index[0]]
 app.layout=dbc.Container([
     dbc.Row([
         
-            dbc.Col(html.Div("GCB Dashboards",
+            dbc.Col(html.Div("alilo Dashboards",
                              style={'frontsize':50,'textAlign':'center'}))
             ]),
         dbc.Row(
