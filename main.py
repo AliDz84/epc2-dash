@@ -1,48 +1,46 @@
 import dash
 from dash import html,dcc
 import dash_bootstrap_components as dbc
-import pandas as pd
-import openpyxl
 
-
-
-
-
-app=dash.Dash(__name__,external_stylesheets=[dbc.themes.SUPERHERO])
+app=dash.Dash(__name__,use_pages=True,external_stylesheets=[dbc.themes.SPACELAB])
 server=app.server
-imageList=pd.read_excel("data.xlsx", engine="openpyxl")
-ph1=imageList['desc'].loc[imageList.index[0]]
+sidebar=dbc.Nav(
+    [
+        dbc.NavLink(
+            [
+                html.Div(page['name'],className="ms-2"),
+                         ],
+                href=page["path"],
+                active="exact", 
+                )
+            for page in dash.page_registry.values()
+            ],
+                     vertical=True,
+                     pills=True,
+                     className="bg-Light",
+    style={'overflow':'hidden', 'transition': 'width 0.3s ease-in-out', 
+       'background-color':'#343a40'},
+                     )
+
 
 app.layout=dbc.Container([
     dbc.Row([
         
-            dbc.Col(html.Div("alilo Dashboards",
+            dbc.Col(html.Div("GCB Dashboards",
                              style={'frontsize':50,'textAlign':'center'}))
             ]),
-        dbc.Row(
-            [               
-                dbc.Col(
-                    [
-                            html.Img(src="1.jpg"),
+        html.Hr(),
 
-                            html.P(ph1,
-                           style={"color": "white",
-                                  "font-size": "15px",
-                                  'margin-top': '15px',
-                                  'margin-bottom': '15px',
-                                  'line-height': '1.2',
-                                  'text-align': 'center'
-                                  }
-                           )   
-                        ],
-                    className='',
-                    xs=6,sm=6,md=6,lg=6,xl=6,xxl=6
-                    ),
-
-                html.Br(),
-                
-                ])
-
+        dbc.Row([
+            dbc.Col([
+                sidebar
+                ],
+                    xs=4,sm=4,md=2,lg=2,xl=2,xxl=2),
+            dbc.Col(
+                [
+                    dash.page_container
+                    ],xs=4,sm=4,md=2,lg=2,xl=2,xxl=2)
+            ])
        ], fluid=True)
 
 
